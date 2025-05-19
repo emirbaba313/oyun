@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<title>Sayı Tahmin Oyunu</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+  #container { background: white; padding: 20px; max-width: 400px; margin: auto; border-radius: 8px; box-shadow: 0 0 10px #aaa; }
+  input[type="number"] { width: 80px; padding: 5px; font-size: 16px; }
+  button { padding: 6px 12px; font-size: 16px; margin-left: 10px; }
+  #message { margin-top: 15px; font-weight: bold; }
+</style>
+</head>
+<body>
+<div id="container">
+  <h2>Sayı Tahmin Oyunu (1-100)</h2>
+  <p>1 ile 100 arasında bir sayı tuttum. Tahmin et!</p>
+  <input type="number" id="guessInput" min="1" max="100" />
+  <button onclick="checkGuess()">Tahmin Et</button>
+  <p id="message"></p>
+  <p id="attempts">Tahmin sayısı: 0</p>
+  <button onclick="resetGame()">Oyunu Yeniden Başlat</button>
+</div>
+
+<script>
+  let hedefSayi = Math.floor(Math.random() * 100) + 1;
+  let tahminSayisi = 0;
+
+  function checkGuess() {
+    const guessInput = document.getElementById('guessInput');
+    const message = document.getElementById('message');
+    const attempts = document.getElementById('attempts');
+    let tahmin = Number(guessInput.value);
+
+    if (!tahmin || tahmin < 1 || tahmin > 100) {
+      message.textContent = "Lütfen 1 ile 100 arasında geçerli bir sayı gir.";
+      return;
+    }
+
+    tahminSayisi++;
+    attempts.textContent = `Tahmin sayısı: ${tahminSayisi}`;
+
+    if (tahmin < hedefSayi) {
+      message.textContent = "Daha yüksek bir sayı söyle.";
+    } else if (tahmin > hedefSayi) {
+      message.textContent = "Daha düşük bir sayı söyle.";
+    } else {
+      message.textContent = `Tebrikler! ${tahminSayisi} tahminde doğru sayıyı buldun: ${hedefSayi}`;
+    }
+
+    guessInput.value = '';
+    guessInput.focus();
+  }
+
+  function resetGame() {
+    hedefSayi = Math.floor(Math.random() * 100) + 1;
+    tahminSayisi = 0;
+    document.getElementById('message').textContent = '';
+    document.getElementById('attempts').textContent = 'Tahmin sayısı: 0';
+    document.getElementById('guessInput').value = '';
+    document.getElementById('guessInput').focus();
+  }
+</script>
+</body>
+</html>
